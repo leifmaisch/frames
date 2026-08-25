@@ -35,7 +35,7 @@ export function StudioSidebar(props: StudioSidebarProps) {
   return (
     <Card className="flex h-full w-full min-w-0 flex-col lg:sticky lg:top-24">
       <CardHeader className="border-b border-border/60 pb-4">
-        <CardTitle>Creator Studio</CardTitle>
+        <CardTitle>Studio</CardTitle>
         <SectionSwitcher
           value={section}
           onChange={setSection}

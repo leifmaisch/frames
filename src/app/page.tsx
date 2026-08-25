@@ -42,8 +42,8 @@ export default function Home() {
         <Hero>
           <HeroFrame>
             <HeroIntro>
-              <HeroLabel>Mockup Generator</HeroLabel>
-              <HeroTitle>Build polished product mockups in minutes</HeroTitle>
+              <HeroLabel>Frames</HeroLabel>
+              <HeroTitle>Put your screenshots in beautiful frames</HeroTitle>
               <HeroDescription>
                 Combine preset backgrounds, device frames, uploads, and live
                 website captures into export-ready visuals.
@@ -71,7 +71,7 @@ export default function Home() {
             </HeroIntro>
             <HeroShowcase>
               <div className="flex h-full min-h-[200px] items-center justify-center p-8 text-description">
-                Creator Studio preview
+                Studio preview
               </div>
             </HeroShowcase>
           </HeroFrame>
@@ -80,7 +80,7 @@ export default function Home() {
         <Features
           id="features"
           title="What's included"
-          description="Everything you need to compose, preview, and export mockups."
+          description="Everything you need to compose, preview, and export framed visuals."
         >
           <FeatureCard
             title="Scene controls"
@@ -98,17 +98,17 @@ export default function Home() {
         </Features>
 
         <Cta>
-          <CtaTitle>Ready to generate mockups?</CtaTitle>
+          <CtaTitle>Ready to create?</CtaTitle>
           <CtaDescription>
-            Open Creator Studio to compose scenes, pick frames, and download
-            your final image.
+            Open studio to compose scenes, pick frames, and download your final
+            image.
           </CtaDescription>
           <CtaActions>
             <Button
               render={<Link href="/creator-studio" />}
               nativeButton={false}
             >
-              Open Creator Studio
+              Open studio
             </Button>
           </CtaActions>
         </Cta>
@@ -117,13 +117,13 @@ export default function Home() {
       <Footer>
         <FooterPanel>
           <FooterMain>
-            <FooterBrand name="Mockup Generator">
-              Product and website mockups with backgrounds, frames, and live
-              captures.
+            <FooterBrand name="Frames">
+              Framed product and website visuals with backgrounds, device
+              frames, and live captures.
             </FooterBrand>
             <FooterColumns>
               <FooterColumn title="Product">
-                <FooterLink label="Creator Studio" href="/creator-studio" />
+                <FooterLink label="Studio" href="/creator-studio" />
                 <FooterLink label="Features" href="#features" />
               </FooterColumn>
               <FooterColumn title="Built with">
@@ -139,7 +139,7 @@ export default function Home() {
             </FooterColumns>
           </FooterMain>
           <FooterBar>
-            <FooterCopyright name="Mockup Generator" />
+            <FooterCopyright name="Frames" />
             <FooterLegal
               links={[
                 { label: "Privacy", href: "#" },

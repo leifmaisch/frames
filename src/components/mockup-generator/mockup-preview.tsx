@@ -109,7 +109,7 @@ function PreviewEmptyState() {
     >
       <div className="max-w-md rounded-squircle-md border border-border/80 bg-background/90 px-4 py-3 text-center backdrop-blur-sm">
         <p className="text-heading text-sm sm:text-base">
-          Add content to complete the mockup
+          Add content to complete the frame
         </p>
         <p className="mt-1 text-description text-xs sm:text-sm">
           Upload a product image or capture a website screenshot.

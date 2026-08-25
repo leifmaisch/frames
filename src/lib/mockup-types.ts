@@ -176,12 +176,12 @@ export function getExportFormatLabel(format: ExportFormat) {
 
 export function getExportFileName(format: ExportFormat) {
   if (format === "jpeg") {
-    return "mockup.jpg"
+    return "frames.jpg"
   }
 
   if (format === "webp") {
-    return "mockup.webp"
+    return "frames.webp"
   }
 
-  return "mockup.png"
+  return "frames.png"
 }

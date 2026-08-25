@@ -5,9 +5,9 @@ import { MockupGenerator } from "@/components/mockup-generator/mockup-generator"
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
-  title: "Creator Studio | Mockup Generator",
+  title: "Studio | Frames",
   description:
-    "Compose product and website mockups with backgrounds, frames, and high-resolution export.",
+    "Compose framed product and website visuals with backgrounds, device frames, and high-resolution export.",
 }
 
 export default function CreatorStudioPage() {

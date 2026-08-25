@@ -3,8 +3,9 @@ import { leguanFontVariables } from "@/lib/fonts"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Mockup Generator",
-  description: "Create product and website mockups with backgrounds, frames, and live captures.",
+  title: "Frames",
+  description:
+    "Create framed product and website visuals with backgrounds, device frames, and live captures.",
 }
 
 export const viewport: Viewport = {

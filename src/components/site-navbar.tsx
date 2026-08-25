@@ -26,7 +26,7 @@ export function SiteNavbar({ activePath = "/" }: SiteNavbarProps) {
   return (
     <Navbar sticky>
       <NavbarFrame>
-        <NavbarBrand name="Mockup Generator" />
+        <NavbarBrand name="Frames" />
         <NavbarLinks>
           <NavbarLink href="/" label="Home" active={activePath === "/"} />
           <NavbarLink href={featuresHref} label="Features" />
@@ -36,7 +36,7 @@ export function SiteNavbar({ activePath = "/" }: SiteNavbarProps) {
             render={<Link href="/creator-studio" />}
             nativeButton={false}
           >
-            Open Creator Studio
+            Open studio
           </Button>
         </NavbarActions>
         <NavbarMenuButton />
@@ -50,7 +50,7 @@ export function SiteNavbar({ activePath = "/" }: SiteNavbarProps) {
             nativeButton={false}
             className="w-full"
           >
-            Open Creator Studio
+            Open studio
           </Button>
         </NavbarMobileActions>
       </NavbarMobileMenu>
