@@ -9,13 +9,14 @@ export function MockupGenerator() {
   const generator = useMockupGenerator()
 
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex min-h-full min-w-0 flex-col">
       <SiteNavbar activePath="/creator-studio" />
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:items-stretch lg:gap-6">
-          <StudioSidebar {...generator} />
+      <main className="mx-auto w-full min-w-0 max-w-6xl flex-1 px-4 py-4 sm:px-6 sm:py-8">
+        <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:items-stretch lg:gap-6">
+          <StudioSidebar {...generator} className="order-2 lg:order-1" />
           <StudioPreview
+            className="order-1 lg:order-2"
             previewRef={generator.previewRef}
             backgroundSrc={generator.backgroundSrc}
             blur={generator.blur}

@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import {
   Cta,
   CtaActions,
-  CtaDescription,
   CtaTitle,
 } from "@/components/ui/cta"
 import {
@@ -35,7 +34,7 @@ export default function Home() {
     <>
       <SiteNavbar />
 
-      <main className="flex-1">
+      <main className="flex min-w-0 flex-1 flex-col">
         <Hero>
           <HeroFrame>
             <HeroIntro>
@@ -76,10 +75,6 @@ export default function Home() {
 
         <Cta>
           <CtaTitle>Ready to create?</CtaTitle>
-          <CtaDescription>
-            Open studio to compose scenes, pick frames, and download your final
-            image.
-          </CtaDescription>
           <CtaActions>
             <Button
               render={<Link href="/creator-studio" />}

@@ -46,7 +46,7 @@ function HeroIntro({
     <div
       data-slot="hero-intro"
       className={cn(
-        "flex flex-col items-center gap-4 px-4 py-10 text-center sm:gap-5 sm:px-10 sm:py-14",
+        "flex flex-col items-center gap-4 px-4 py-8 text-center sm:gap-5 sm:px-10 sm:py-14",
         className
       )}
       {...props}
@@ -110,7 +110,7 @@ function HeroActions({
     <div
       data-slot="hero-actions"
       className={cn(
-        "flex flex-wrap items-center justify-center gap-3",
+        "flex flex-wrap items-center justify-center gap-3 max-sm:w-full max-sm:flex-col [&_button]:max-sm:w-full",
         className
       )}
       {...props}

@@ -45,7 +45,7 @@ function FeatureCard({
       style={squircle}
       className={cn(
         "group flex flex-col rounded-squircle-lg border border-border bg-muted/30 p-2 transition-colors hover:bg-muted/50",
-        large && "lg:h-full",
+        large && "sm:col-span-2 lg:col-span-1 lg:h-full",
         className
       )}
       {...props}

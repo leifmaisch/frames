@@ -15,8 +15,8 @@ export function StudioPanelToolbar({
   className,
 }: StudioPanelToolbarProps) {
   return (
-    <div className={cn("mb-4 flex items-center justify-between gap-3", className)}>
-      <p className="text-label">{label}</p>
+    <div className={cn("mb-4 flex flex-wrap items-center justify-between gap-2", className)}>
+      <p className="min-w-0 flex-1 text-label text-balance">{label}</p>
       {onReset ? (
         <Button type="button" variant="ghost" size="xs" onClick={onReset}>
           {resetLabel}

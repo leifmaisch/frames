@@ -131,7 +131,7 @@ export function ContentPanel({
             />
           </Field>
 
-          <Field className="flex-row items-center justify-between gap-3">
+          <Field className="flex-row flex-wrap items-center justify-between gap-3">
             <FieldLabel className="mb-0">System dark mode</FieldLabel>
             <Switch
               checked={screenshotDarkMode}

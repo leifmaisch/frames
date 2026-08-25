@@ -18,7 +18,9 @@ import { squircle } from "@/lib/squircle"
 import { surfaceDepth } from "@/lib/surface-depth"
 import { cn } from "@/lib/utils"
 
-type StudioSidebarProps = MockupGeneratorState
+type StudioSidebarProps = MockupGeneratorState & {
+  className?: string
+}
 
 const studioSections = [
   { value: "scene", label: "Scene" },
@@ -29,11 +31,16 @@ const studioSections = [
 
 type StudioSection = (typeof studioSections)[number]["value"]
 
-export function StudioSidebar(props: StudioSidebarProps) {
+export function StudioSidebar({ className, ...props }: StudioSidebarProps) {
   const [section, setSection] = useState<StudioSection>("scene")
 
   return (
-    <Card className="flex h-full w-full min-w-0 flex-col lg:sticky lg:top-24">
+    <Card
+      className={cn(
+        "flex w-full min-w-0 flex-col lg:sticky lg:top-24 lg:h-full",
+        className
+      )}
+    >
       <CardHeader className="border-b border-border/60 pb-4">
         <CardTitle>Studio</CardTitle>
         <SectionSwitcher

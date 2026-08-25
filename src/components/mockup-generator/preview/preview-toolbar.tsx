@@ -48,7 +48,12 @@ export function PreviewToolbar({
           className="w-full shrink-0 sm:w-auto"
         >
           <DownloadIcon weight={iconWeight} />
-          {isExporting ? "Exporting..." : `Download ${formatLabel}`}
+          <span className="sm:hidden">
+            {isExporting ? "Exporting..." : "Download"}
+          </span>
+          <span className="hidden sm:inline">
+            {isExporting ? "Exporting..." : `Download ${formatLabel}`}
+          </span>
         </Button>
       </div>
 

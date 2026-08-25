@@ -11,11 +11,7 @@ import { FeatureCard, Features } from "@/components/ui/features"
 
 export function HomeFeatures() {
   return (
-    <Features
-      id="features"
-      title="What's included"
-      description="Everything you need to compose, preview, and export framed visuals."
-    >
+    <Features id="features" title="What's included">
       <FeatureCard
         icon={<SlidersHorizontalIcon weight={iconWeight} className="size-12" />}
         title="Scene controls"

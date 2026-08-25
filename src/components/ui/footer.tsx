@@ -103,7 +103,7 @@ function FooterColumns({
   return (
     <div
       data-slot="footer-columns"
-      className={cn("grid gap-8 sm:grid-cols-2 md:grid-cols-3", className)}
+      className={cn("grid gap-8 sm:grid-cols-2", className)}
       {...props}
     >
       {children}

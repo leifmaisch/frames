@@ -51,7 +51,7 @@ export const MockupPreview = memo(function MockupPreview({
         backgroundScale={backgroundScale}
       />
 
-      <div className="relative flex h-full min-h-0 items-center justify-center p-4 sm:p-6">
+      <div className="relative flex h-full min-h-0 items-center justify-center p-2 sm:p-4 md:p-6">
         <div
           className="flex w-full origin-center justify-center"
           style={{ transform: `scale(${frameScale / 100})` }}

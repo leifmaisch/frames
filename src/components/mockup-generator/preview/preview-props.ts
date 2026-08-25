@@ -19,6 +19,7 @@ export type StudioPreviewProps = Pick<
 > & {
   previewRef: RefObject<HTMLDivElement | null>
   onExport: () => void
+  className?: string
 }
 
 export type PreviewSceneProps = Pick<

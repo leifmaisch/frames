@@ -24,7 +24,7 @@ export function BackgroundPicker({
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {PRESET_BACKGROUNDS.map((background) => {
           const isSelected =
             !hasCustomBackground && selectedBackgroundId === background.id

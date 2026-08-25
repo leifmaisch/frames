@@ -28,7 +28,7 @@ export function SectionSwitcher<T extends string>({
         surfaceDepth("md"),
         options.length === 2 && "grid-cols-2",
         options.length === 3 && "grid-cols-3",
-        options.length === 4 && "grid-cols-4",
+        options.length === 4 && "grid-cols-2 sm:grid-cols-4",
         className
       )}
     >
