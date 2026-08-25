@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -43,7 +44,18 @@ export function SiteNavbar({ activePath = "/" }: SiteNavbarProps) {
   return (
     <Navbar sticky>
       <NavbarFrame>
-        <NavbarBrand name="Frames" />
+        <NavbarBrand
+          name="Frames"
+          logo={
+            <Image
+              src="/logo.png"
+              alt=""
+              width={24}
+              height={24}
+              className="size-6 shrink-0"
+            />
+          }
+        />
         <NavbarLinks>
           <NavbarLink
             href="/"
