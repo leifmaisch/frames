@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["puppeteer"],
-};
+  output: "standalone",
+  serverExternalPackages: ["playwright", "playwright-core"],
+}
 
-export default nextConfig;
+export default nextConfig

@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer"
+import { chromium } from "playwright"
 import { NextResponse } from "next/server"
 
 import type { ScreenshotFormat } from "@/lib/mockup-types"
@@ -11,21 +11,6 @@ export const maxDuration = 60
 type ScreenshotRequest = {
   url?: string
   format?: ScreenshotFormat
-}
-
-async function launchBrowser() {
-  try {
-    return await puppeteer.launch({
-      headless: true,
-      channel: "chrome",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    })
-  } catch {
-    return await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    })
-  }
 }
 
 export async function POST(request: Request) {
@@ -49,32 +34,41 @@ export async function POST(request: Request) {
   }
 
   const viewport = SCREENSHOT_VIEWPORTS[format]
-  let browser: Awaited<ReturnType<typeof launchBrowser>> | null = null
+  let browser: Awaited<ReturnType<typeof chromium.launch>> | null = null
 
   try {
-    browser = await launchBrowser()
-    const page = await browser.newPage()
-    await page.setViewport(viewport)
-    await page.goto(url, {
-      waitUntil: "networkidle2",
-      timeout: 45000,
+    browser = await chromium.launch({ headless: true })
+    const context = await browser.newContext({
+      viewport: {
+        width: viewport.width,
+        height: viewport.height,
+      },
+      deviceScaleFactor: viewport.deviceScaleFactor,
     })
+    const page = await context.newPage()
+    page.setDefaultTimeout(45000)
+
+    try {
+      await page.goto(url, { waitUntil: "load", timeout: 45000 })
+    } catch {
+      await page.goto(url, { waitUntil: "domcontentloaded", timeout: 45000 })
+    }
+
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const screenshot = await page.screenshot({
       type: "png",
-      encoding: "base64",
       fullPage: false,
     })
 
     return NextResponse.json({
-      image: `data:image/png;base64,${screenshot}`,
+      image: `data:image/png;base64,${screenshot.toString("base64")}`,
     })
   } catch {
     return NextResponse.json(
       {
         error:
-          "Could not capture this URL. Check that it is reachable and that Chrome is installed locally.",
+          "Could not capture this URL. Check that it is reachable and that Playwright Chromium is installed.",
       },
       { status: 500 }
     )
