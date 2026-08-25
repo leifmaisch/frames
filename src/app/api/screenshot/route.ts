@@ -7,6 +7,7 @@ import type {
   ScreenshotFormat,
 } from "@/lib/mockup-types"
 import { SCREENSHOT_VIEWPORTS } from "@/lib/screenshot-formats"
+import { getScreenshotContextOptions } from "@/lib/screenshot/device-profiles"
 import { dismissOverlays } from "@/lib/screenshot/dismiss-overlays"
 import { scrollPageForLazyContent } from "@/lib/screenshot/scroll-page-for-lazy-content"
 import { getScreenshotUrlCandidates } from "@/lib/url-validation"
@@ -23,11 +24,6 @@ type ScreenshotRequest = {
   scale?: ImageScale
   captureArea?: ScreenshotCaptureArea
   darkMode?: boolean
-}
-
-type CaptureViewport = {
-  width: number
-  height: number
 }
 
 async function getPageDimensions(page: Page) {
@@ -48,19 +44,15 @@ async function getPageDimensions(page: Page) {
 async function captureScreenshot(
   browser: Browser,
   url: string,
-  viewport: CaptureViewport,
+  format: ScreenshotFormat,
   scale: ImageScale,
   captureArea: ScreenshotCaptureArea,
   darkMode: boolean
 ) {
-  const context = await browser.newContext({
-    viewport: {
-      width: viewport.width,
-      height: viewport.height,
-    },
-    deviceScaleFactor: scale,
-    colorScheme: darkMode ? "dark" : "light",
-  })
+  const viewport = SCREENSHOT_VIEWPORTS[format]
+  const context = await browser.newContext(
+    getScreenshotContextOptions(format, scale, darkMode)
+  )
 
   const page = await context.newPage()
 
@@ -136,7 +128,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Select a valid capture area." }, { status: 400 })
   }
 
-  const viewport = SCREENSHOT_VIEWPORTS[format]
   let browser: Browser | null = null
 
   try {
@@ -147,7 +138,7 @@ export async function POST(request: Request) {
         const result = await captureScreenshot(
           browser,
           candidate,
-          viewport,
+          format,
           scale,
           captureArea,
           darkMode
