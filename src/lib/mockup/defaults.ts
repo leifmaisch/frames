@@ -3,6 +3,7 @@ import type {
   ExportFormat,
   FrameType,
   ImageScale,
+  ScreenshotCaptureArea,
   ScreenshotFormat,
 } from "@/lib/mockup-types"
 
@@ -15,6 +16,7 @@ export const MOCKUP_DEFAULTS = {
   backgroundScale: 110,
   frame: "safari" as FrameType,
   screenshotFormat: "safari" as ScreenshotFormat,
+  screenshotCaptureArea: "viewport" as ScreenshotCaptureArea,
   screenshotScale: 2 as ImageScale,
   exportFormat: "png" as ExportFormat,
   exportScale: 3 as ImageScale,

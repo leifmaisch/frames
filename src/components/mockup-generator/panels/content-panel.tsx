@@ -13,10 +13,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import {
+  SCREENSHOT_CAPTURE_AREA_OPTIONS,
   SCREENSHOT_FORMAT_OPTIONS,
   getScreenshotScaleOptions,
   type ContentMode,
   type ImageScale,
+  type ScreenshotCaptureArea,
   type ScreenshotFormat,
 } from "@/lib/mockup-types"
 import { canCaptureWebsiteUrl } from "@/lib/url-validation"
@@ -28,14 +30,18 @@ type ContentPanelProps = Pick<
   | "websiteUrl"
   | "screenshotFormat"
   | "screenshotScale"
+  | "screenshotCaptureArea"
+  | "activeScreenSrc"
   | "isCapturing"
   | "setContentMode"
   | "setWebsiteUrl"
   | "setScreenshotFormat"
   | "setScreenshotScale"
+  | "setScreenshotCaptureArea"
   | "setFrame"
   | "uploadProduct"
   | "captureScreenshot"
+  | "downloadScreenshot"
   | "resetContent"
 >
 
@@ -45,17 +51,24 @@ export function ContentPanel({
   websiteUrl,
   screenshotFormat,
   screenshotScale,
+  screenshotCaptureArea,
+  activeScreenSrc,
   isCapturing,
   setContentMode,
   setWebsiteUrl,
   setScreenshotFormat,
   setScreenshotScale,
+  setScreenshotCaptureArea,
   setFrame,
   uploadProduct,
   captureScreenshot,
+  downloadScreenshot,
   resetContent,
 }: ContentPanelProps) {
-  const scaleOptions = getScreenshotScaleOptions(screenshotFormat)
+  const scaleOptions = getScreenshotScaleOptions(
+    screenshotFormat,
+    screenshotCaptureArea
+  )
 
   return (
     <div className="space-y-4">
@@ -99,6 +112,17 @@ export function ContentPanel({
               placeholder="example.com"
               value={websiteUrl}
               onChange={(event) => setWebsiteUrl(event.target.value)}
+            />
+          </Field>
+
+          <Field>
+            <FieldLabel>Capture area</FieldLabel>
+            <SectionSwitcher
+              value={screenshotCaptureArea}
+              onChange={(value) =>
+                setScreenshotCaptureArea(value as ScreenshotCaptureArea)
+              }
+              options={[...SCREENSHOT_CAPTURE_AREA_OPTIONS]}
             />
           </Field>
 
@@ -154,14 +178,27 @@ export function ContentPanel({
             </Select>
           </Field>
 
-          <Button
-            type="button"
-            className="w-full"
-            disabled={!canCaptureWebsiteUrl(websiteUrl) || isCapturing}
-            onClick={() => void captureScreenshot()}
-          >
-            {isCapturing ? "Capturing..." : "Capture screenshot"}
-          </Button>
+          <div className="flex flex-col gap-2">
+            <Button
+              type="button"
+              className="w-full"
+              disabled={!canCaptureWebsiteUrl(websiteUrl) || isCapturing}
+              onClick={() => void captureScreenshot()}
+            >
+              {isCapturing ? "Capturing..." : "Capture screenshot"}
+            </Button>
+
+            {activeScreenSrc ? (
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={downloadScreenshot}
+              >
+                Download screenshot
+              </Button>
+            ) : null}
+          </div>
         </div>
       )}
     </div>

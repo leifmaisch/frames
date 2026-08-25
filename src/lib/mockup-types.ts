@@ -8,6 +8,16 @@ export type ContentMode = "upload" | "url"
 
 export type ScreenshotFormat = FrameType
 
+export type ScreenshotCaptureArea = "viewport" | "fullPage"
+
+export const SCREENSHOT_CAPTURE_AREA_OPTIONS: {
+  value: ScreenshotCaptureArea
+  label: string
+}[] = [
+  { value: "viewport", label: "Viewport" },
+  { value: "fullPage", label: "Full page" },
+]
+
 export const FRAME_OPTIONS: { value: FrameType; label: string }[] = [
   { value: "iphone", label: "iPhone" },
   { value: "android", label: "Android" },
@@ -77,12 +87,17 @@ export function getExportOutputSize(frame: FrameType, scale: ImageScale) {
 
 export function getScreenshotResolutionLabel(
   format: ScreenshotFormat,
-  scale: ImageScale
+  scale: ImageScale,
+  captureArea: ScreenshotCaptureArea = "viewport"
 ) {
-  const size = getScreenshotOutputSize(format, scale)
+  const size = getScreenshotOutputSize(format, scale, captureArea)
 
   if (!size) {
     return formatPixelSize(0, 0)
+  }
+
+  if (captureArea === "fullPage") {
+    return `${size.width}px x full page`
   }
 
   return formatPixelSize(size.width, size.height)
@@ -93,10 +108,13 @@ export function getExportResolutionLabel(frame: FrameType, scale: ImageScale) {
   return formatPixelSize(size.width, size.height)
 }
 
-export function getScreenshotScaleOptions(format: ScreenshotFormat) {
+export function getScreenshotScaleOptions(
+  format: ScreenshotFormat,
+  captureArea: ScreenshotCaptureArea = "viewport"
+) {
   return IMAGE_SCALE_OPTIONS.map((option) => ({
     value: option.value,
-    label: getScreenshotResolutionLabel(format, option.value),
+    label: getScreenshotResolutionLabel(format, option.value, captureArea),
     description: option.description,
   }))
 }
@@ -137,7 +155,8 @@ export const SCREENSHOT_FORMAT_OPTIONS: {
 
 export function getScreenshotOutputSize(
   format: ScreenshotFormat,
-  scale: ImageScale
+  scale: ImageScale,
+  captureArea: ScreenshotCaptureArea = "viewport"
 ) {
   const viewport = SCREENSHOT_FORMAT_OPTIONS.find((option) => option.value === format)
 
@@ -147,7 +166,7 @@ export function getScreenshotOutputSize(
 
   return {
     width: viewport.width * scale,
-    height: viewport.height * scale,
+    height: captureArea === "fullPage" ? 0 : viewport.height * scale,
   }
 }
 

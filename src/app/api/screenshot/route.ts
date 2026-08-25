@@ -1,7 +1,11 @@
-import { chromium, type Browser } from "playwright"
+import { chromium, type Browser, type Page } from "playwright"
 import { NextResponse } from "next/server"
 
-import type { ImageScale, ScreenshotFormat } from "@/lib/mockup-types"
+import type {
+  ImageScale,
+  ScreenshotCaptureArea,
+  ScreenshotFormat,
+} from "@/lib/mockup-types"
 import { SCREENSHOT_VIEWPORTS } from "@/lib/screenshot-formats"
 import { dismissOverlays } from "@/lib/screenshot/dismiss-overlays"
 import { getScreenshotUrlCandidates } from "@/lib/url-validation"
@@ -10,11 +14,13 @@ export const runtime = "nodejs"
 export const maxDuration = 60
 
 const VALID_SCALES: ImageScale[] = [1, 2, 3, 4]
+const VALID_CAPTURE_AREAS: ScreenshotCaptureArea[] = ["viewport", "fullPage"]
 
 type ScreenshotRequest = {
   url?: string
   format?: ScreenshotFormat
   scale?: ImageScale
+  captureArea?: ScreenshotCaptureArea
 }
 
 type CaptureViewport = {
@@ -22,11 +28,27 @@ type CaptureViewport = {
   height: number
 }
 
+async function getPageDimensions(page: Page) {
+  return page.evaluate(() => ({
+    width: Math.max(
+      document.documentElement.clientWidth,
+      document.documentElement.scrollWidth,
+      document.body.scrollWidth
+    ),
+    height: Math.max(
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    ),
+  }))
+}
+
 async function captureScreenshot(
   browser: Browser,
   url: string,
   viewport: CaptureViewport,
-  scale: ImageScale
+  scale: ImageScale,
+  captureArea: ScreenshotCaptureArea
 ) {
   const context = await browser.newContext({
     viewport: {
@@ -49,14 +71,25 @@ async function captureScreenshot(
 
     await dismissOverlays(page)
 
+    const fullPage = captureArea === "fullPage"
+    const pageDimensions = fullPage ? await getPageDimensions(page) : null
+
     const screenshot = await page.screenshot({
       type: "png",
-      fullPage: false,
-      timeout: 30000,
+      fullPage,
+      timeout: fullPage ? 60000 : 30000,
       animations: "disabled",
     })
 
-    return screenshot
+    return {
+      screenshot,
+      width: fullPage
+        ? pageDimensions!.width * scale
+        : viewport.width * scale,
+      height: fullPage
+        ? pageDimensions!.height * scale
+        : viewport.height * scale,
+    }
   } finally {
     await context.close()
   }
@@ -74,6 +107,7 @@ export async function POST(request: Request) {
   const url = body.url?.trim() ?? ""
   const format = body.format
   const scale = body.scale ?? 2
+  const captureArea = body.captureArea ?? "viewport"
   const candidates = getScreenshotUrlCandidates(url)
 
   if (!url || candidates.length === 0) {
@@ -91,6 +125,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Select a valid screenshot scale." }, { status: 400 })
   }
 
+  if (!VALID_CAPTURE_AREAS.includes(captureArea)) {
+    return NextResponse.json({ error: "Select a valid capture area." }, { status: 400 })
+  }
+
   const viewport = SCREENSHOT_VIEWPORTS[format]
   let browser: Browser | null = null
 
@@ -99,18 +137,20 @@ export async function POST(request: Request) {
 
     for (const candidate of candidates) {
       try {
-        const screenshot = await captureScreenshot(
+        const result = await captureScreenshot(
           browser,
           candidate,
           viewport,
-          scale
+          scale,
+          captureArea
         )
 
         return NextResponse.json({
-          image: `data:image/png;base64,${screenshot.toString("base64")}`,
+          image: `data:image/png;base64,${result.screenshot.toString("base64")}`,
           url: candidate,
-          width: viewport.width * scale,
-          height: viewport.height * scale,
+          width: result.width,
+          height: result.height,
+          captureArea,
         })
       } catch {
         continue

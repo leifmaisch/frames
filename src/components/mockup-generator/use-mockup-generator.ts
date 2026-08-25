@@ -12,6 +12,7 @@ import type {
   ExportFormat,
   FrameType,
   ImageScale,
+  ScreenshotCaptureArea,
   ScreenshotFormat,
 } from "@/lib/mockup-types"
 import { displayUrl, normalizeScreenshotUrl } from "@/lib/url-validation"
@@ -43,6 +44,8 @@ export function useMockupGenerator() {
   const [screenshotScale, setScreenshotScale] = useState<ImageScale>(
     MOCKUP_DEFAULTS.screenshotScale
   )
+  const [screenshotCaptureArea, setScreenshotCaptureArea] =
+    useState<ScreenshotCaptureArea>(MOCKUP_DEFAULTS.screenshotCaptureArea)
   const [exportFormat, setExportFormat] = useState<ExportFormat>(
     MOCKUP_DEFAULTS.exportFormat
   )
@@ -143,6 +146,7 @@ export function useMockupGenerator() {
           url: websiteUrl.trim(),
           format: screenshotFormat,
           scale: screenshotScale,
+          captureArea: screenshotCaptureArea,
         }),
       })
 
@@ -169,7 +173,19 @@ export function useMockupGenerator() {
     } finally {
       setIsCapturing(false)
     }
-  }, [clearError, screenshotFormat, screenshotScale, websiteUrl])
+  }, [clearError, screenshotCaptureArea, screenshotFormat, screenshotScale, websiteUrl])
+
+  const downloadScreenshot = useCallback(() => {
+    if (!screenSrc) {
+      return
+    }
+
+    clearError()
+    const link = document.createElement("a")
+    link.download = "screenshot.png"
+    link.href = screenSrc
+    link.click()
+  }, [clearError, screenSrc])
 
   const exportMockupFile = useCallback(async () => {
     if (!previewRef.current || !canExport) {
@@ -213,6 +229,7 @@ export function useMockupGenerator() {
     setWebsiteUrl(MOCKUP_DEFAULTS.websiteUrl)
     setScreenshotFormat(MOCKUP_DEFAULTS.screenshotFormat)
     setScreenshotScale(MOCKUP_DEFAULTS.screenshotScale)
+    setScreenshotCaptureArea(MOCKUP_DEFAULTS.screenshotCaptureArea)
     setContentMode(MOCKUP_DEFAULTS.contentMode)
   }, [clearError])
 
@@ -237,6 +254,7 @@ export function useMockupGenerator() {
     websiteUrl,
     screenshotFormat,
     screenshotScale,
+    screenshotCaptureArea,
     exportFormat,
     exportScale,
     safariUrl,
@@ -254,12 +272,14 @@ export function useMockupGenerator() {
     setWebsiteUrl,
     setScreenshotFormat,
     setScreenshotScale,
+    setScreenshotCaptureArea,
     setExportFormat,
     setExportScale,
     selectPresetBackground,
     uploadBackground,
     uploadProduct,
     captureScreenshot,
+    downloadScreenshot,
     exportMockup: exportMockupFile,
     resetScene,
     resetContent,
