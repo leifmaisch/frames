@@ -49,7 +49,7 @@ export function SiteNavbar({ activePath = "/" }: SiteNavbarProps) {
           logo={
             <Image
               src="/logo.png"
-              alt=""
+              alt="Frames logo"
               width={24}
               height={24}
               className="size-6 shrink-0"

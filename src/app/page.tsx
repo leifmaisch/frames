@@ -34,7 +34,7 @@ export default function Home() {
     <>
       <SiteNavbar />
 
-      <main className="flex min-w-0 flex-1 flex-col">
+      <main id="main-content" className="flex min-w-0 flex-1 flex-col">
         <Hero>
           <HeroFrame>
             <HeroIntro>
@@ -94,7 +94,7 @@ export default function Home() {
               logo={
                 <Image
                   src="/logo.png"
-                  alt=""
+                  alt="Frames logo"
                   width={36}
                   height={36}
                   className="size-9 shrink-0"

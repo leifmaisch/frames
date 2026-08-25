@@ -1,0 +1,23 @@
+{
+  "name": "Frames",
+  "short_name": "Frames",
+  "description": "Create stunning framed product and website visuals with customizable backgrounds, device frames, live website captures, and high-resolution export.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#1a1a1a",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
