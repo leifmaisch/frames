@@ -1,6 +1,7 @@
 import { UploadIcon } from "@phosphor-icons/react"
 import { useRef } from "react"
 
+import { BackgroundThumbnail } from "@/components/mockup-generator/background-image"
 import { iconWeight } from "@/components/shared"
 import { Button } from "@/components/ui/button"
 import { PRESET_BACKGROUNDS } from "@/lib/backgrounds"
@@ -41,10 +42,9 @@ export function BackgroundPicker({
                   : "border-border hover:border-primary/40"
               )}
             >
-              <img
+              <BackgroundThumbnail
                 src={background.src}
                 alt={background.label}
-                className="size-full object-cover"
               />
             </button>
           )

@@ -38,13 +38,8 @@ export function PreviewToolbar({
   return (
     <div className="flex flex-col gap-4 border-b border-border/60 px-4 py-4 sm:px-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="min-w-0 space-y-1">
+        <div className="min-w-0">
           <h2 className="text-heading text-xl sm:text-2xl">Canvas</h2>
-          {!canExport ? (
-            <p className="text-description">
-              Add product or website content to complete the frame.
-            </p>
-          ) : null}
         </div>
 
         <Button

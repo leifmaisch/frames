@@ -1,6 +1,7 @@
 import { memo } from "react"
 
 import { MockupFrame } from "@/components/mockup-generator/mockup-frame"
+import { PreviewBackgroundImage } from "@/components/mockup-generator/background-image"
 import { isDesktopFrame } from "@/lib/mockup/frame-layout"
 import type { FrameType } from "@/lib/mockup-types"
 import { squircle } from "@/lib/squircle"
@@ -81,13 +82,10 @@ function PreviewBackground({
 }) {
   return (
     <>
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url("${backgroundSrc}")`,
-          filter: `blur(${blur}px)`,
-          transform: `scale(${backgroundScale / 100})`,
-        }}
+      <PreviewBackgroundImage
+        src={backgroundSrc}
+        blur={blur}
+        scale={backgroundScale}
       />
       <div
         className="absolute inset-0 bg-black"
