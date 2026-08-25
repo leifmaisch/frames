@@ -120,24 +120,26 @@ export function ContentPanel({
             />
           </Field>
 
-          <Field>
-            <FieldLabel>Capture area</FieldLabel>
-            <SectionSwitcher
-              value={screenshotCaptureArea}
-              onChange={(value) =>
-                setScreenshotCaptureArea(value as ScreenshotCaptureArea)
-              }
-              options={[...SCREENSHOT_CAPTURE_AREA_OPTIONS]}
-            />
-          </Field>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <Field className="sm:col-span-2">
+              <FieldLabel>Capture area</FieldLabel>
+              <SectionSwitcher
+                value={screenshotCaptureArea}
+                onChange={(value) =>
+                  setScreenshotCaptureArea(value as ScreenshotCaptureArea)
+                }
+                options={[...SCREENSHOT_CAPTURE_AREA_OPTIONS]}
+              />
+            </Field>
 
-          <Field className="flex-row flex-wrap items-center justify-between gap-3">
-            <FieldLabel className="mb-0">System dark mode</FieldLabel>
-            <Switch
-              checked={screenshotDarkMode}
-              onCheckedChange={setScreenshotDarkMode}
-            />
-          </Field>
+            <Field>
+              <FieldLabel>Dark mode</FieldLabel>
+              <Switch
+                checked={screenshotDarkMode}
+                onCheckedChange={setScreenshotDarkMode}
+              />
+            </Field>
+          </div>
 
           <Field>
             <FieldLabel>Device format</FieldLabel>
