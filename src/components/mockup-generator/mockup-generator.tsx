@@ -26,6 +26,7 @@ export function MockupGenerator() {
             frame={generator.frame}
             activeScreenSrc={generator.activeScreenSrc}
             safariUrl={generator.safariUrl}
+            exportRounded={generator.exportRounded}
             canExport={generator.canExport}
             exportFormat={generator.exportFormat}
             exportScale={generator.exportScale}

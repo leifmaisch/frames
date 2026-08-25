@@ -1,6 +1,7 @@
 import { StudioPanelToolbar } from "@/components/mockup-generator/studio-panel"
 import type { MockupGeneratorState } from "@/components/mockup-generator/use-mockup-generator"
 import { Field, FieldLabel } from "@/components/ui/field"
+import { Switch } from "@/components/ui/switch"
 import {
   Select,
   SelectContent,
@@ -20,8 +21,10 @@ type ExportPanelProps = Pick<
   | "frame"
   | "exportFormat"
   | "exportScale"
+  | "exportRounded"
   | "setExportFormat"
   | "setExportScale"
+  | "setExportRounded"
   | "resetExport"
 >
 
@@ -29,8 +32,10 @@ export function ExportPanel({
   frame,
   exportFormat,
   exportScale,
+  exportRounded,
   setExportFormat,
   setExportScale,
+  setExportRounded,
   resetExport,
 }: ExportPanelProps) {
   const scaleOptions = getExportScaleOptions(frame)
@@ -64,6 +69,14 @@ export function ExportPanel({
             ))}
           </SelectContent>
         </Select>
+      </Field>
+
+      <Field>
+        <FieldLabel>Rounded corners</FieldLabel>
+        <Switch
+          checked={exportRounded}
+          onCheckedChange={setExportRounded}
+        />
       </Field>
 
       <Field>

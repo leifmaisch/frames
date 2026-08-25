@@ -55,6 +55,9 @@ export function useMockupGenerator() {
   const [exportScale, setExportScale] = useState<ImageScale>(
     MOCKUP_DEFAULTS.exportScale
   )
+  const [exportRounded, setExportRounded] = useState(
+    MOCKUP_DEFAULTS.exportRounded
+  )
   const [screenSrc, setScreenSrc] = useState<string | undefined>()
   const [isCapturing, setIsCapturing] = useState(false)
   const [isExporting, setIsExporting] = useState(false)
@@ -249,6 +252,7 @@ export function useMockupGenerator() {
     clearError()
     setExportFormat(MOCKUP_DEFAULTS.exportFormat)
     setExportScale(MOCKUP_DEFAULTS.exportScale)
+    setExportRounded(MOCKUP_DEFAULTS.exportRounded)
   }, [clearError])
 
   return {
@@ -270,6 +274,7 @@ export function useMockupGenerator() {
     screenshotDarkMode,
     exportFormat,
     exportScale,
+    exportRounded,
     safariUrl,
     selectedBackgroundId,
     customBackground,
@@ -289,6 +294,7 @@ export function useMockupGenerator() {
     setScreenshotDarkMode,
     setExportFormat,
     setExportScale,
+    setExportRounded,
     selectPresetBackground,
     uploadBackground,
     uploadProduct,

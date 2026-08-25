@@ -14,6 +14,7 @@ export function StudioPreview({
   frame,
   activeScreenSrc,
   safariUrl,
+  exportRounded,
   canExport,
   exportFormat,
   exportScale,
@@ -46,6 +47,7 @@ export function StudioPreview({
         frame={frame}
         activeScreenSrc={activeScreenSrc}
         safariUrl={safariUrl}
+        exportRounded={exportRounded}
       />
     </Frame>
   )

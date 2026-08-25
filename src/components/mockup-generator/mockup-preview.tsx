@@ -5,7 +5,7 @@ import { PreviewBackgroundImage } from "@/components/mockup-generator/background
 import { isDesktopFrame } from "@/lib/mockup/frame-layout"
 import type { FrameType } from "@/lib/mockup-types"
 import { squircle } from "@/lib/squircle"
-import { surfaceDepth } from "@/lib/surface-depth"
+import { surfaceDepth, surfaceDepthFrame } from "@/lib/surface-depth"
 import { cn } from "@/lib/utils"
 
 type MockupPreviewProps = {
@@ -17,6 +17,7 @@ type MockupPreviewProps = {
   frame: FrameType
   screenSrc?: string
   safariUrl?: string
+  rounded?: boolean
   className?: string
 }
 
@@ -29,6 +30,7 @@ export const MockupPreview = memo(function MockupPreview({
   frame,
   screenSrc,
   safariUrl,
+  rounded = true,
   className,
 }: MockupPreviewProps) {
   const hasContent = Boolean(screenSrc)
@@ -36,11 +38,12 @@ export const MockupPreview = memo(function MockupPreview({
 
   return (
     <div
-      style={squircle}
+      style={rounded ? squircle : undefined}
       className={cn(
-        "relative w-full overflow-hidden rounded-squircle-lg border border-border/80 bg-black/20 shadow-[inset_0_1px_0_rgb(255_255_255/0.04)]",
+        "relative w-full overflow-hidden border border-border/80 bg-black/20 shadow-[inset_0_1px_0_rgb(255_255_255/0.04)]",
+        rounded ? "rounded-squircle-lg" : "rounded-none",
         isDesktop ? "aspect-[16/10]" : "aspect-[4/3]",
-        surfaceDepth("lg"),
+        rounded ? surfaceDepth("lg") : surfaceDepthFrame,
         className
       )}
     >

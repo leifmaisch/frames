@@ -21,6 +21,7 @@ export const MOCKUP_DEFAULTS = {
   screenshotScale: 2 as ImageScale,
   exportFormat: "png" as ExportFormat,
   exportScale: 3 as ImageScale,
+  exportRounded: true,
   websiteUrl: "",
 }
 

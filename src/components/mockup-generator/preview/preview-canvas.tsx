@@ -20,6 +20,7 @@ export function PreviewCanvas({
   frame,
   activeScreenSrc,
   safariUrl,
+  exportRounded,
 }: PreviewCanvasProps) {
   return (
     <div className="flex flex-1 flex-col p-2 sm:p-3">
@@ -50,6 +51,7 @@ export function PreviewCanvas({
               frame={frame}
               screenSrc={activeScreenSrc}
               safariUrl={safariUrl}
+              rounded={exportRounded}
             />
           </div>
         </div>

@@ -15,6 +15,7 @@ export type StudioPreviewProps = Pick<
   | "canExport"
   | "exportFormat"
   | "exportScale"
+  | "exportRounded"
   | "isExporting"
 > & {
   previewRef: RefObject<HTMLDivElement | null>
@@ -32,4 +33,5 @@ export type PreviewSceneProps = Pick<
   | "frame"
   | "activeScreenSrc"
   | "safariUrl"
+  | "exportRounded"
 >
