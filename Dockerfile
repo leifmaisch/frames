@@ -14,11 +14,6 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm build
 
-FROM node:22-bookworm-slim AS playwright-runtime
-WORKDIR /playwright
-RUN printf '%s\n' '{"private":true,"dependencies":{"playwright":"1.62.1"}}' > package.json && \
-    npm install --ignore-scripts --omit=dev
-
 FROM mcr.microsoft.com/playwright:v1.62.1-noble AS runner
 WORKDIR /app
 
@@ -31,8 +26,8 @@ ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
-COPY --from=playwright-runtime /playwright/node_modules/playwright ./node_modules/playwright
-COPY --from=playwright-runtime /playwright/node_modules/playwright-core ./node_modules/playwright-core
+COPY --from=deps /app/node_modules/.pnpm/playwright-core@1.62.1/node_modules/playwright-core ./node_modules/.pnpm/playwright-core@1.62.1/node_modules/playwright-core
+COPY --from=deps /app/node_modules/.pnpm/playwright@1.62.1/node_modules/playwright ./node_modules/.pnpm/playwright@1.62.1/node_modules/playwright
 
 RUN chown -R pwuser:pwuser /app
 USER pwuser
