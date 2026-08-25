@@ -17,6 +17,7 @@ export const MOCKUP_DEFAULTS = {
   frame: "safari" as FrameType,
   screenshotFormat: "safari" as ScreenshotFormat,
   screenshotCaptureArea: "viewport" as ScreenshotCaptureArea,
+  screenshotDarkMode: false,
   screenshotScale: 2 as ImageScale,
   exportFormat: "png" as ExportFormat,
   exportScale: 3 as ImageScale,

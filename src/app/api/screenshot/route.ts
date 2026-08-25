@@ -8,6 +8,7 @@ import type {
 } from "@/lib/mockup-types"
 import { SCREENSHOT_VIEWPORTS } from "@/lib/screenshot-formats"
 import { dismissOverlays } from "@/lib/screenshot/dismiss-overlays"
+import { scrollPageForLazyContent } from "@/lib/screenshot/scroll-page-for-lazy-content"
 import { getScreenshotUrlCandidates } from "@/lib/url-validation"
 
 export const runtime = "nodejs"
@@ -21,6 +22,7 @@ type ScreenshotRequest = {
   format?: ScreenshotFormat
   scale?: ImageScale
   captureArea?: ScreenshotCaptureArea
+  darkMode?: boolean
 }
 
 type CaptureViewport = {
@@ -48,7 +50,8 @@ async function captureScreenshot(
   url: string,
   viewport: CaptureViewport,
   scale: ImageScale,
-  captureArea: ScreenshotCaptureArea
+  captureArea: ScreenshotCaptureArea,
+  darkMode: boolean
 ) {
   const context = await browser.newContext({
     viewport: {
@@ -56,6 +59,7 @@ async function captureScreenshot(
       height: viewport.height,
     },
     deviceScaleFactor: scale,
+    colorScheme: darkMode ? "dark" : "light",
   })
 
   const page = await context.newPage()
@@ -69,6 +73,8 @@ async function captureScreenshot(
       await page.goto(url, { waitUntil: "domcontentloaded", timeout: 45000 })
     }
 
+    await dismissOverlays(page)
+    await scrollPageForLazyContent(page)
     await dismissOverlays(page)
 
     const fullPage = captureArea === "fullPage"
@@ -108,6 +114,7 @@ export async function POST(request: Request) {
   const format = body.format
   const scale = body.scale ?? 2
   const captureArea = body.captureArea ?? "viewport"
+  const darkMode = body.darkMode ?? false
   const candidates = getScreenshotUrlCandidates(url)
 
   if (!url || candidates.length === 0) {
@@ -142,7 +149,8 @@ export async function POST(request: Request) {
           candidate,
           viewport,
           scale,
-          captureArea
+          captureArea,
+          darkMode
         )
 
         return NextResponse.json({

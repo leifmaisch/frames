@@ -46,6 +46,9 @@ export function useMockupGenerator() {
   )
   const [screenshotCaptureArea, setScreenshotCaptureArea] =
     useState<ScreenshotCaptureArea>(MOCKUP_DEFAULTS.screenshotCaptureArea)
+  const [screenshotDarkMode, setScreenshotDarkMode] = useState(
+    MOCKUP_DEFAULTS.screenshotDarkMode
+  )
   const [exportFormat, setExportFormat] = useState<ExportFormat>(
     MOCKUP_DEFAULTS.exportFormat
   )
@@ -147,6 +150,7 @@ export function useMockupGenerator() {
           format: screenshotFormat,
           scale: screenshotScale,
           captureArea: screenshotCaptureArea,
+          darkMode: screenshotDarkMode,
         }),
       })
 
@@ -173,7 +177,14 @@ export function useMockupGenerator() {
     } finally {
       setIsCapturing(false)
     }
-  }, [clearError, screenshotCaptureArea, screenshotFormat, screenshotScale, websiteUrl])
+  }, [
+    clearError,
+    screenshotCaptureArea,
+    screenshotDarkMode,
+    screenshotFormat,
+    screenshotScale,
+    websiteUrl,
+  ])
 
   const downloadScreenshot = useCallback(() => {
     if (!screenSrc) {
@@ -230,6 +241,7 @@ export function useMockupGenerator() {
     setScreenshotFormat(MOCKUP_DEFAULTS.screenshotFormat)
     setScreenshotScale(MOCKUP_DEFAULTS.screenshotScale)
     setScreenshotCaptureArea(MOCKUP_DEFAULTS.screenshotCaptureArea)
+    setScreenshotDarkMode(MOCKUP_DEFAULTS.screenshotDarkMode)
     setContentMode(MOCKUP_DEFAULTS.contentMode)
   }, [clearError])
 
@@ -255,6 +267,7 @@ export function useMockupGenerator() {
     screenshotFormat,
     screenshotScale,
     screenshotCaptureArea,
+    screenshotDarkMode,
     exportFormat,
     exportScale,
     safariUrl,
@@ -273,6 +286,7 @@ export function useMockupGenerator() {
     setScreenshotFormat,
     setScreenshotScale,
     setScreenshotCaptureArea,
+    setScreenshotDarkMode,
     setExportFormat,
     setExportScale,
     selectPresetBackground,

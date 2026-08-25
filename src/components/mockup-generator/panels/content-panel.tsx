@@ -5,6 +5,7 @@ import type { MockupGeneratorState } from "@/components/mockup-generator/use-moc
 import { Button } from "@/components/ui/button"
 import { Field, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Switch } from "@/components/ui/switch"
 import {
   Select,
   SelectContent,
@@ -31,6 +32,7 @@ type ContentPanelProps = Pick<
   | "screenshotFormat"
   | "screenshotScale"
   | "screenshotCaptureArea"
+  | "screenshotDarkMode"
   | "activeScreenSrc"
   | "isCapturing"
   | "setContentMode"
@@ -38,6 +40,7 @@ type ContentPanelProps = Pick<
   | "setScreenshotFormat"
   | "setScreenshotScale"
   | "setScreenshotCaptureArea"
+  | "setScreenshotDarkMode"
   | "setFrame"
   | "uploadProduct"
   | "captureScreenshot"
@@ -52,6 +55,7 @@ export function ContentPanel({
   screenshotFormat,
   screenshotScale,
   screenshotCaptureArea,
+  screenshotDarkMode,
   activeScreenSrc,
   isCapturing,
   setContentMode,
@@ -59,6 +63,7 @@ export function ContentPanel({
   setScreenshotFormat,
   setScreenshotScale,
   setScreenshotCaptureArea,
+  setScreenshotDarkMode,
   setFrame,
   uploadProduct,
   captureScreenshot,
@@ -123,6 +128,14 @@ export function ContentPanel({
                 setScreenshotCaptureArea(value as ScreenshotCaptureArea)
               }
               options={[...SCREENSHOT_CAPTURE_AREA_OPTIONS]}
+            />
+          </Field>
+
+          <Field className="flex-row items-center justify-between gap-3">
+            <FieldLabel className="mb-0">System dark mode</FieldLabel>
+            <Switch
+              checked={screenshotDarkMode}
+              onCheckedChange={setScreenshotDarkMode}
             />
           </Field>
 
