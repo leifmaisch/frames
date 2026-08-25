@@ -40,11 +40,11 @@ export function PreviewToolbar({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 space-y-1">
           <h2 className="text-heading text-xl sm:text-2xl">Mockup canvas</h2>
-          <p className="text-description">
-            {canExport
-              ? `Ready to export as ${formatLabel} at ${exportSize}.`
-              : "Add product or website content to complete the mockup."}
-          </p>
+          {!canExport ? (
+            <p className="text-description">
+              Add product or website content to complete the mockup.
+            </p>
+          ) : null}
         </div>
 
         <Button

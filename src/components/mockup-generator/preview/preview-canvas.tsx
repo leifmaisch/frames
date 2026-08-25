@@ -26,7 +26,7 @@ export function PreviewCanvas({
       <div
         style={squircle}
         className={cn(
-          "relative flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-squircle-inner border border-border bg-card",
+          "relative flex min-h-[500px] flex-1 flex-col overflow-hidden rounded-squircle-inner border border-border bg-card",
           surfaceDepth("md")
         )}
       >

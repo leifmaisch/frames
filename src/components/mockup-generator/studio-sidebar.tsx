@@ -11,7 +11,6 @@ import type { MockupGeneratorState } from "@/components/mockup-generator/use-moc
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -37,9 +36,6 @@ export function StudioSidebar(props: StudioSidebarProps) {
     <Card className="flex h-full w-full min-w-0 flex-col lg:sticky lg:top-24">
       <CardHeader className="border-b border-border/60 pb-4">
         <CardTitle>Creator Studio</CardTitle>
-        <CardDescription>
-          Adjust scene, content, frame, and export settings.
-        </CardDescription>
         <SectionSwitcher
           value={section}
           onChange={setSection}
