@@ -89,7 +89,18 @@ export default function Home() {
       <Footer>
         <FooterPanel>
           <FooterMain>
-            <FooterBrand name="Frames">
+            <FooterBrand
+              name="Frames"
+              logo={
+                <Image
+                  src="/logo.png"
+                  alt=""
+                  width={36}
+                  height={36}
+                  className="size-9 shrink-0"
+                />
+              }
+            >
               Framed product and website visuals with backgrounds, device
               frames, and live captures.
             </FooterBrand>
