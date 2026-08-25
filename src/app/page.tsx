@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { HomeFeatures } from "@/components/home-features"
 import { SiteNavbar } from "@/components/site-navbar"
 import { Button } from "@/components/ui/button"
@@ -26,7 +27,6 @@ import {
   HeroDescription,
   HeroFrame,
   HeroIntro,
-  HeroShowcase,
   HeroTitle,
 } from "@/components/ui/hero"
 
@@ -60,11 +60,15 @@ export default function Home() {
                 </Button>
               </HeroActions>
             </HeroIntro>
-            <HeroShowcase>
-              <div className="flex h-full min-h-[200px] items-center justify-center p-8 text-description">
-                Studio preview
-              </div>
-            </HeroShowcase>
+            <Image
+              src="/assets/frames.png"
+              alt="Frames studio preview"
+              width={1956}
+              height={1224}
+              priority
+              sizes="(max-width: 768px) 100vw, 1152px"
+              className="h-auto w-full"
+            />
           </HeroFrame>
         </Hero>
 
