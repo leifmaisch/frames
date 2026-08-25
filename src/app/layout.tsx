@@ -4,7 +4,7 @@ import "./globals.css"
 
 export const metadata: Metadata = {
   title: "Mockup Generator",
-  description: "Next.js starter with Leguan UI",
+  description: "Create product and website mockups with backgrounds, frames, and live captures.",
 }
 
 export const viewport: Viewport = {
