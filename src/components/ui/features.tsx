@@ -15,6 +15,7 @@ import {
 type FeatureCardProps = React.ComponentProps<"article"> & {
   title: string
   description?: string
+  icon?: React.ReactNode
   visual?: React.ReactNode
   large?: boolean
   showArrow?: boolean
@@ -23,12 +24,21 @@ type FeatureCardProps = React.ComponentProps<"article"> & {
 function FeatureCard({
   title,
   description,
+  icon,
   visual,
   large = false,
   showArrow = true,
   className,
   ...props
 }: FeatureCardProps) {
+  const cardVisual =
+    visual ??
+    (icon ? (
+      <div className="flex h-full w-full items-center justify-center text-primary">
+        {icon}
+      </div>
+    ) : null)
+
   return (
     <article
       data-slot="feature-card"
@@ -40,7 +50,7 @@ function FeatureCard({
       )}
       {...props}
     >
-      {visual ? (
+      {cardVisual ? (
         <div
           data-slot="feature-card-visual"
           style={squircle}
@@ -54,13 +64,13 @@ function FeatureCard({
             aria-hidden
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_80%_at_50%_100%,color-mix(in_srgb,var(--primary)_12%,transparent),transparent_65%)]"
           />
-          <div className="relative z-10 h-full w-full">{visual}</div>
+          <div className="relative z-10 h-full w-full">{cardVisual}</div>
         </div>
       ) : null}
       <div
         className={cn(
           "px-3 pb-1 pt-2",
-          showArrow ? "flex items-start justify-between gap-3" : ""
+          showArrow && !icon ? "flex items-start justify-between gap-3" : ""
         )}
       >
         <div className="min-w-0">
@@ -69,7 +79,7 @@ function FeatureCard({
             <p className="mt-1 line-clamp-2 text-description">{description}</p>
           ) : null}
         </div>
-        {showArrow ? (
+        {showArrow && !icon ? (
           <span className="flex shrink-0 text-primary transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transition-none">
             <ArrowUpRightIcon className="size-5" />
           </span>

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { HomeFeatures } from "@/components/home-features"
 import { SiteNavbar } from "@/components/site-navbar"
 import { Button } from "@/components/ui/button"
 import {
@@ -7,7 +8,6 @@ import {
   CtaDescription,
   CtaTitle,
 } from "@/components/ui/cta"
-import { FeatureCard, Features } from "@/components/ui/features"
 import {
   Footer,
   FooterBar,
@@ -23,12 +23,9 @@ import {
 import {
   Hero,
   HeroActions,
-  HeroChip,
-  HeroChips,
   HeroDescription,
   HeroFrame,
   HeroIntro,
-  HeroLabel,
   HeroShowcase,
   HeroTitle,
 } from "@/components/ui/hero"
@@ -42,7 +39,6 @@ export default function Home() {
         <Hero>
           <HeroFrame>
             <HeroIntro>
-              <HeroLabel>Frames</HeroLabel>
               <HeroTitle>Put your screenshots in beautiful frames</HeroTitle>
               <HeroDescription>
                 Combine preset backgrounds, device frames, uploads, and live
@@ -63,11 +59,6 @@ export default function Home() {
                   Explore features
                 </Button>
               </HeroActions>
-              <HeroChips>
-                <HeroChip>Device frames</HeroChip>
-                <HeroChip>Website capture</HeroChip>
-                <HeroChip>High-res export</HeroChip>
-              </HeroChips>
             </HeroIntro>
             <HeroShowcase>
               <div className="flex h-full min-h-[200px] items-center justify-center p-8 text-description">
@@ -77,25 +68,7 @@ export default function Home() {
           </HeroFrame>
         </Hero>
 
-        <Features
-          id="features"
-          title="What's included"
-          description="Everything you need to compose, preview, and export framed visuals."
-        >
-          <FeatureCard
-            title="Scene controls"
-            description="Preset backgrounds, blur, dim, zoom, and frame scale sliders."
-          />
-          <FeatureCard
-            title="Content sources"
-            description="Upload product images or capture live website screenshots."
-          />
-          <FeatureCard
-            title="Export options"
-            description="PNG, JPEG, or WebP exports at 1x to 4x resolution."
-            large
-          />
-        </Features>
+        <HomeFeatures />
 
         <Cta>
           <CtaTitle>Ready to create?</CtaTitle>
