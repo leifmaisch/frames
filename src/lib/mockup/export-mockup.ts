@@ -2,6 +2,10 @@ import { toBlob, toJpeg, toPng } from "html-to-image"
 
 import type { ExportFormat, ImageScale } from "@/lib/mockup-types"
 import { getExportFileName } from "@/lib/mockup-types"
+import {
+  splitImageDataUrl,
+  type XSplitOptions,
+} from "@/lib/mockup/x-split"
 
 type ExportMockupOptions = {
   format: ExportFormat
@@ -131,4 +135,16 @@ export async function exportMockup(
   } finally {
     mount.remove()
   }
+}
+
+export async function exportMockupSplit(
+  node: HTMLElement,
+  splitOptions: XSplitOptions
+) {
+  const { dataUrl } = await exportMockup(node, {
+    format: "png",
+    scale: 1,
+  })
+
+  return splitImageDataUrl(dataUrl, splitOptions)
 }

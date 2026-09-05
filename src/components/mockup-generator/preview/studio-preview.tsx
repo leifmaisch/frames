@@ -18,6 +18,9 @@ export function StudioPreview({
   canExport,
   exportFormat,
   exportScale,
+  exportMode,
+  xSplitCount,
+  xSplitAspect,
   isExporting,
   onExport,
   className,
@@ -33,6 +36,9 @@ export function StudioPreview({
         canExport={canExport}
         exportFormat={exportFormat}
         exportScale={exportScale}
+        exportMode={exportMode}
+        xSplitCount={xSplitCount}
+        xSplitAspect={xSplitAspect}
         frame={frame}
         isExporting={isExporting}
         onExport={onExport}
@@ -48,6 +54,9 @@ export function StudioPreview({
         activeScreenSrc={activeScreenSrc}
         safariUrl={safariUrl}
         exportRounded={exportRounded}
+        exportMode={exportMode}
+        xSplitCount={xSplitCount}
+        xSplitAspect={xSplitAspect}
       />
     </Frame>
   )

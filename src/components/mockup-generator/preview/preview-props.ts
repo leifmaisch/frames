@@ -16,6 +16,9 @@ export type StudioPreviewProps = Pick<
   | "exportFormat"
   | "exportScale"
   | "exportRounded"
+  | "exportMode"
+  | "xSplitCount"
+  | "xSplitAspect"
   | "isExporting"
 > & {
   previewRef: RefObject<HTMLDivElement | null>

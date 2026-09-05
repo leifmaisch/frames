@@ -30,6 +30,9 @@ export function MockupGenerator() {
             canExport={generator.canExport}
             exportFormat={generator.exportFormat}
             exportScale={generator.exportScale}
+            exportMode={generator.exportMode}
+            xSplitCount={generator.xSplitCount}
+            xSplitAspect={generator.xSplitAspect}
             isExporting={generator.isExporting}
             onExport={() => void generator.exportMockup()}
           />

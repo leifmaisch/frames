@@ -6,6 +6,11 @@ import type {
   ScreenshotCaptureArea,
   ScreenshotFormat,
 } from "@/lib/mockup-types"
+import type {
+  ExportMode,
+  XSplitAspect,
+  XSplitCount,
+} from "@/lib/mockup/x-split"
 
 export const MOCKUP_DEFAULTS = {
   contentMode: "url" as ContentMode,
@@ -22,6 +27,9 @@ export const MOCKUP_DEFAULTS = {
   exportFormat: "png" as ExportFormat,
   exportScale: 3 as ImageScale,
   exportRounded: true,
+  exportMode: "standard" as ExportMode,
+  xSplitCount: 4 as XSplitCount,
+  xSplitAspect: "portrait-4-5" as XSplitAspect,
   websiteUrl: "",
 }
 

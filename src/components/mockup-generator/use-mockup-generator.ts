@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef, useState } from "react"
 
 import { PRESET_BACKGROUNDS } from "@/lib/backgrounds"
 import { MOCKUP_DEFAULTS, getDefaultFrameScale } from "@/lib/mockup/defaults"
-import { exportMockup } from "@/lib/mockup/export-mockup"
+import { exportMockup, exportMockupSplit } from "@/lib/mockup/export-mockup"
 import { isDesktopFrame } from "@/lib/mockup/frame-layout"
 import { readFileAsDataUrl } from "@/lib/mockup/read-file-as-data-url"
 import type {
@@ -16,6 +16,12 @@ import type {
   ScreenshotFormat,
 } from "@/lib/mockup-types"
 import { displayUrl, normalizeScreenshotUrl } from "@/lib/url-validation"
+import {
+  downloadFiles,
+  type ExportMode,
+  type XSplitAspect,
+  type XSplitCount,
+} from "@/lib/mockup/x-split"
 
 export function useMockupGenerator() {
   const previewRef = useRef<HTMLDivElement>(null)
@@ -57,6 +63,15 @@ export function useMockupGenerator() {
   )
   const [exportRounded, setExportRounded] = useState(
     MOCKUP_DEFAULTS.exportRounded
+  )
+  const [exportMode, setExportMode] = useState<ExportMode>(
+    MOCKUP_DEFAULTS.exportMode
+  )
+  const [xSplitCount, setXSplitCount] = useState<XSplitCount>(
+    MOCKUP_DEFAULTS.xSplitCount
+  )
+  const [xSplitAspect, setXSplitAspect] = useState<XSplitAspect>(
+    MOCKUP_DEFAULTS.xSplitAspect
   )
   const [screenSrc, setScreenSrc] = useState<string | undefined>()
   const [isCapturing, setIsCapturing] = useState(false)
@@ -210,6 +225,18 @@ export function useMockupGenerator() {
     setIsExporting(true)
 
     try {
+      if (exportMode === "x-split") {
+        const files = await exportMockupSplit(previewRef.current, {
+          count: xSplitCount,
+          aspect: xSplitAspect,
+          scale: exportScale,
+          format: exportFormat,
+        })
+
+        downloadFiles(files)
+        return
+      }
+
       const { dataUrl, fileName } = await exportMockup(previewRef.current, {
         format: exportFormat,
         scale: exportScale,
@@ -224,7 +251,15 @@ export function useMockupGenerator() {
     } finally {
       setIsExporting(false)
     }
-  }, [canExport, clearError, exportFormat, exportScale])
+  }, [
+    canExport,
+    clearError,
+    exportFormat,
+    exportMode,
+    exportScale,
+    xSplitAspect,
+    xSplitCount,
+  ])
 
   const resetScene = useCallback(() => {
     clearError()
@@ -253,6 +288,9 @@ export function useMockupGenerator() {
     setExportFormat(MOCKUP_DEFAULTS.exportFormat)
     setExportScale(MOCKUP_DEFAULTS.exportScale)
     setExportRounded(MOCKUP_DEFAULTS.exportRounded)
+    setExportMode(MOCKUP_DEFAULTS.exportMode)
+    setXSplitCount(MOCKUP_DEFAULTS.xSplitCount)
+    setXSplitAspect(MOCKUP_DEFAULTS.xSplitAspect)
   }, [clearError])
 
   return {
@@ -275,6 +313,9 @@ export function useMockupGenerator() {
     exportFormat,
     exportScale,
     exportRounded,
+    exportMode,
+    xSplitCount,
+    xSplitAspect,
     safariUrl,
     selectedBackgroundId,
     customBackground,
@@ -295,6 +336,9 @@ export function useMockupGenerator() {
     setExportFormat,
     setExportScale,
     setExportRounded,
+    setExportMode,
+    setXSplitCount,
+    setXSplitAspect,
     selectPresetBackground,
     uploadBackground,
     uploadProduct,
