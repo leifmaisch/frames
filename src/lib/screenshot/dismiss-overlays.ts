@@ -112,6 +112,15 @@ const CONSENT_BUTTON_TEXT = [
   "dismiss",
 ]
 
+async function injectPageStyles(page: Page, css: string) {
+  await page.evaluate((content) => {
+    const style = document.createElement("style")
+    style.setAttribute("data-frames-overlay-hide", "true")
+    style.textContent = content
+    document.head.append(style)
+  }, css)
+}
+
 async function clickConsentButtons(page: Page) {
   for (const selector of CONSENT_BUTTON_SELECTORS) {
     const button = page.locator(selector).first()
@@ -229,7 +238,12 @@ async function removeOverlayElements(page: Page) {
 }
 
 export async function dismissOverlays(page: Page) {
-  await page.addStyleTag({ content: OVERLAY_HIDE_CSS })
+  try {
+    await injectPageStyles(page, OVERLAY_HIDE_CSS)
+  } catch {
+    // Some sites block Playwright's addStyleTag under strict CSP.
+  }
+
   await clickConsentButtons(page)
   await removeOverlayElements(page)
   await clickConsentButtons(page)
