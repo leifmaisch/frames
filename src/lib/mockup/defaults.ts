@@ -29,7 +29,7 @@ export const MOCKUP_DEFAULTS = {
   exportRounded: true,
   exportMode: "standard" as ExportMode,
   xSplitCount: 4 as XSplitCount,
-  xSplitAspect: "portrait-4-5" as XSplitAspect,
+  xSplitAspect: "fit-mockup" as XSplitAspect,
   websiteUrl: "",
 }
 

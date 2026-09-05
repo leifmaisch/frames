@@ -1,17 +1,47 @@
-import type { ExportFormat, ImageScale } from "@/lib/mockup-types"
-import { formatPixelSize } from "@/lib/mockup-types"
+import type { ExportFormat, FrameType, ImageScale } from "@/lib/mockup-types"
+import { formatPixelSize, IMAGE_SCALE_OPTIONS } from "@/lib/mockup-types"
+import { isDesktopFrame } from "@/lib/mockup/frame-layout"
 
 export type ExportMode = "standard" | "x-split"
 
 export type XSplitCount = 2 | 3 | 4
 
-export type XSplitAspect = "portrait-3-4" | "portrait-4-5" | "square" | "landscape-16-9"
+export type XSplitAspect =
+  | "fit-mockup"
+  | "landscape-4-3"
+  | "landscape-3-2"
+  | "landscape-16-9"
+  | "wide-2-1"
+  | "square"
+  | "portrait-4-5"
+  | "portrait-3-4"
+
+export type XSplitSizing = {
+  count: XSplitCount
+  mockupAspect: number
+}
 
 export type XSplitOptions = {
   count: XSplitCount
   aspect: XSplitAspect
   scale: ImageScale
   format: ExportFormat
+  mockupAspect: number
+}
+
+const X_TILE_BASE_WIDTH = 1200
+
+const X_FIXED_TILE_BASE_SIZE: Record<
+  Exclude<XSplitAspect, "fit-mockup">,
+  { width: number; height: number }
+> = {
+  "landscape-4-3": { width: 1200, height: 900 },
+  "landscape-3-2": { width: 1200, height: 800 },
+  "landscape-16-9": { width: 1200, height: 675 },
+  "wide-2-1": { width: 1200, height: 600 },
+  square: { width: 1200, height: 1200 },
+  "portrait-4-5": { width: 1200, height: 1500 },
+  "portrait-3-4": { width: 1200, height: 1600 },
 }
 
 export const EXPORT_MODE_OPTIONS: {
@@ -46,37 +76,71 @@ export const X_SPLIT_ASPECT_OPTIONS: {
   description: string
 }[] = [
   {
+    value: "fit-mockup",
+    label: "Fit mockup",
+    description: "Sizes tiles so the full composite matches your frame",
+  },
+  {
+    value: "landscape-4-3",
+    label: "4:3 landscape",
+    description: "Wide tiles that pair well with phone mockups",
+  },
+  {
+    value: "landscape-3-2",
+    label: "3:2 landscape",
+    description: "Balanced wide tiles for carousel splits",
+  },
+  {
+    value: "landscape-16-9",
+    label: "16:9 landscape",
+    description: "Cinematic wide tiles at 1200 x 675",
+  },
+  {
+    value: "wide-2-1",
+    label: "2:1 wide",
+    description: "Extra-wide tiles for panoramic splits",
+  },
+  {
+    value: "square",
+    label: "1:1 square",
+    description: "Square tiles for even grid-style posts",
+  },
+  {
     value: "portrait-4-5",
     label: "4:5 portrait",
-    description: "Tallest tiles, best feed presence on X",
+    description: "Tall tiles for maximum X timeline height",
   },
   {
     value: "portrait-3-4",
     label: "3:4 portrait",
     description: "Classic portrait tiles at 1200 x 1600",
   },
-  {
-    value: "square",
-    label: "1:1 square",
-    description: "Balanced square tiles",
-  },
-  {
-    value: "landscape-16-9",
-    label: "16:9 landscape",
-    description: "Wide tiles for landscape compositions",
-  },
 ]
 
-const X_TILE_BASE_SIZE: Record<XSplitAspect, { width: number; height: number }> =
-  {
-    "portrait-3-4": { width: 1200, height: 1600 },
-    "portrait-4-5": { width: 1200, height: 1500 },
-    square: { width: 1200, height: 1200 },
-    "landscape-16-9": { width: 1200, height: 675 },
+export function getMockupAspectRatio(frame: FrameType) {
+  return isDesktopFrame(frame) ? 16 / 10 : 4 / 3
+}
+
+export function getXSplitSizing(count: XSplitCount, frame: FrameType): XSplitSizing {
+  return {
+    count,
+    mockupAspect: getMockupAspectRatio(frame),
+  }
+}
+
+export function getXSplitTileSize(
+  aspect: XSplitAspect,
+  scale: ImageScale,
+  sizing: XSplitSizing
+) {
+  if (aspect === "fit-mockup") {
+    const width = X_TILE_BASE_WIDTH * scale
+    const height = Math.round((width * sizing.count) / sizing.mockupAspect)
+
+    return { width, height }
   }
 
-export function getXSplitTileSize(aspect: XSplitAspect, scale: ImageScale) {
-  const base = X_TILE_BASE_SIZE[aspect]
+  const base = X_FIXED_TILE_BASE_SIZE[aspect]
 
   return {
     width: base.width * scale,
@@ -88,8 +152,9 @@ export function getXSplitCompositeSize({
   count,
   aspect,
   scale,
-}: Pick<XSplitOptions, "count" | "aspect" | "scale">) {
-  const tile = getXSplitTileSize(aspect, scale)
+  mockupAspect,
+}: Pick<XSplitOptions, "count" | "aspect" | "scale" | "mockupAspect">) {
+  const tile = getXSplitTileSize(aspect, scale, { count, mockupAspect })
 
   return {
     width: tile.width * count,
@@ -99,24 +164,58 @@ export function getXSplitCompositeSize({
 
 export function getXSplitCompositeAspectRatio(
   count: XSplitCount,
-  aspect: XSplitAspect
+  aspect: XSplitAspect,
+  mockupAspect: number
 ) {
-  const composite = getXSplitCompositeSize({ count, aspect, scale: 1 })
+  if (aspect === "fit-mockup") {
+    return mockupAspect
+  }
+
+  const composite = getXSplitCompositeSize({
+    count,
+    aspect,
+    scale: 1,
+    mockupAspect,
+  })
 
   return composite.width / composite.height
 }
 
-export function getXSplitTileAspectRatio(aspect: XSplitAspect) {
-  const tile = getXSplitTileSize(aspect, 1)
+export function getXSplitTileAspectRatio(
+  aspect: XSplitAspect,
+  sizing: XSplitSizing
+) {
+  const tile = getXSplitTileSize(aspect, 1, sizing)
 
   return tile.width / tile.height
 }
 
 export function getXSplitResolutionLabel(options: XSplitOptions) {
-  const tile = getXSplitTileSize(options.aspect, options.scale)
+  const sizing = { count: options.count, mockupAspect: options.mockupAspect }
+  const tile = getXSplitTileSize(options.aspect, options.scale, sizing)
   const composite = getXSplitCompositeSize(options)
 
   return `${options.count} x ${formatPixelSize(tile.width, tile.height)} (${formatPixelSize(composite.width, composite.height)} total)`
+}
+
+export function getXSplitScaleOptions(
+  count: XSplitCount,
+  aspect: XSplitAspect,
+  frame: FrameType
+) {
+  const mockupAspect = getMockupAspectRatio(frame)
+
+  return IMAGE_SCALE_OPTIONS.map((option) => ({
+    value: option.value,
+    label: getXSplitResolutionLabel({
+      count,
+      aspect,
+      scale: option.value,
+      format: "png",
+      mockupAspect,
+    }),
+    description: option.description,
+  }))
 }
 
 export function getXSplitFileName(format: ExportFormat, index: number, count: number) {
@@ -171,7 +270,11 @@ export async function splitImageDataUrl(
   options: XSplitOptions
 ) {
   const image = await loadImage(dataUrl)
-  const tile = getXSplitTileSize(options.aspect, options.scale)
+  const sizing = {
+    count: options.count,
+    mockupAspect: options.mockupAspect,
+  }
+  const tile = getXSplitTileSize(options.aspect, options.scale, sizing)
   const composite = getXSplitCompositeSize(options)
   const canvas = document.createElement("canvas")
 

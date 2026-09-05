@@ -18,6 +18,7 @@ import type {
 import { displayUrl, normalizeScreenshotUrl } from "@/lib/url-validation"
 import {
   downloadFiles,
+  getMockupAspectRatio,
   type ExportMode,
   type XSplitAspect,
   type XSplitCount,
@@ -231,6 +232,7 @@ export function useMockupGenerator() {
           aspect: xSplitAspect,
           scale: exportScale,
           format: exportFormat,
+          mockupAspect: getMockupAspectRatio(frame),
         })
 
         downloadFiles(files)
@@ -257,6 +259,7 @@ export function useMockupGenerator() {
     exportFormat,
     exportMode,
     exportScale,
+    frame,
     xSplitAspect,
     xSplitCount,
   ])

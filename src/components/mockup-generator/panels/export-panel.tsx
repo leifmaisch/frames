@@ -17,7 +17,9 @@ import {
 } from "@/lib/mockup-types"
 import {
   EXPORT_MODE_OPTIONS,
+  getMockupAspectRatio,
   getXSplitResolutionLabel,
+  getXSplitScaleOptions,
   X_SPLIT_ASPECT_OPTIONS,
   X_SPLIT_COUNT_OPTIONS,
   type ExportMode,
@@ -59,13 +61,17 @@ export function ExportPanel({
   setXSplitAspect,
   resetExport,
 }: ExportPanelProps) {
-  const scaleOptions = getExportScaleOptions(frame)
   const isXSplit = exportMode === "x-split"
+  const scaleOptions = isXSplit
+    ? getXSplitScaleOptions(xSplitCount, xSplitAspect, frame)
+    : getExportScaleOptions(frame)
+  const mockupAspect = getMockupAspectRatio(frame)
   const xSplitResolution = getXSplitResolutionLabel({
     count: xSplitCount,
     aspect: xSplitAspect,
     scale: exportScale,
     format: exportFormat,
+    mockupAspect,
   })
 
   return (
@@ -134,7 +140,7 @@ export function ExportPanel({
           </Field>
 
           <Field>
-            <FieldLabel>Tile aspect</FieldLabel>
+            <FieldLabel>Tile format</FieldLabel>
             <Select
               items={X_SPLIT_ASPECT_OPTIONS.map((option) => ({
                 label: option.label,
@@ -168,7 +174,7 @@ export function ExportPanel({
             <ul className="mt-2 list-disc space-y-1 pl-4">
               <li>Upload all slices at once on x.com desktop.</li>
               <li>Attach files left to right (01, 02, 03…).</li>
-              <li>Portrait tiles fill more of the timeline than landscape.</li>
+              <li>Portrait tiles add timeline height but may letterbox wide mockups.</li>
             </ul>
           </div>
         </>

@@ -2,10 +2,11 @@ import type { RefObject } from "react"
 
 import { MockupPreview } from "@/components/mockup-generator/mockup-preview"
 import type { PreviewSceneProps } from "@/components/mockup-generator/preview/preview-props"
-import { isDesktopFrame } from "@/lib/mockup/frame-layout"
 import type { FrameType } from "@/lib/mockup-types"
 import {
+  getMockupAspectRatio,
   getXSplitCompositeAspectRatio,
+  getXSplitSizing,
   getXSplitTileAspectRatio,
   type XSplitAspect,
   type XSplitCount,
@@ -21,10 +22,6 @@ type XSplitLivePreviewProps = PreviewSceneProps & {
 
 type CompositeSceneProps = PreviewSceneProps & {
   frame: FrameType
-}
-
-function getMockupAspectRatio(frame: FrameType) {
-  return isDesktopFrame(frame) ? 16 / 10 : 4 / 3
 }
 
 function XSplitCompositeScene({
@@ -97,15 +94,23 @@ function XSplitSliceTile({
   index,
   count,
   aspect,
+  frame,
   scene,
 }: {
   index: number
   count: XSplitCount
   aspect: XSplitAspect
+  frame: FrameType
   scene: CompositeSceneProps
 }) {
-  const tileAspectRatio = getXSplitTileAspectRatio(aspect)
-  const compositeAspectRatio = getXSplitCompositeAspectRatio(count, aspect)
+  const sizing = getXSplitSizing(count, frame)
+  const mockupAspect = getMockupAspectRatio(frame)
+  const tileAspectRatio = getXSplitTileAspectRatio(aspect, sizing)
+  const compositeAspectRatio = getXSplitCompositeAspectRatio(
+    count,
+    aspect,
+    mockupAspect
+  )
 
   return (
     <div
@@ -140,9 +145,11 @@ export function XSplitLivePreview({
   frame,
   ...scene
 }: XSplitLivePreviewProps) {
+  const mockupAspect = getMockupAspectRatio(frame)
   const compositeAspectRatio = getXSplitCompositeAspectRatio(
     xSplitCount,
-    xSplitAspect
+    xSplitAspect,
+    mockupAspect
   )
   const sceneProps = { frame, ...scene }
 
@@ -176,6 +183,7 @@ export function XSplitLivePreview({
               index={index}
               count={xSplitCount}
               aspect={xSplitAspect}
+              frame={frame}
               scene={sceneProps}
             />
           ))}

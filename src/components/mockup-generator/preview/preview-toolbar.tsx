@@ -11,6 +11,7 @@ import {
   type ImageScale,
 } from "@/lib/mockup-types"
 import {
+  getMockupAspectRatio,
   getXSplitResolutionLabel,
   type ExportMode,
   type XSplitAspect,
@@ -52,6 +53,7 @@ export function PreviewToolbar({
           aspect: xSplitAspect,
           scale: exportScale,
           format: exportFormat,
+          mockupAspect: getMockupAspectRatio(frame),
         })
       : getExportResolutionLabel(frame, exportScale)
   const exportActionLabel =
