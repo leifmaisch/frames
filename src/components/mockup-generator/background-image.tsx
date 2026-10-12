@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -39,16 +39,16 @@ type PreviewBackgroundImageProps = {
   scale: number
 }
 
-export function PreviewBackgroundImage({
+export function PreviewBackgroundImage(props: PreviewBackgroundImageProps) {
+  return <PreviewBackgroundImageContent key={props.src} {...props} />
+}
+
+function PreviewBackgroundImageContent({
   src,
   blur,
   scale,
 }: PreviewBackgroundImageProps) {
   const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    setIsLoading(true)
-  }, [src])
 
   const finishLoading = () => {
     setIsLoading(false)
