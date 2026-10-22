@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1
 
-FROM node:22-bookworm-slim AS base
-RUN corepack enable && corepack prepare pnpm@11.22.0 --activate
+FROM node:26.12.1-bookworm-slim AS base
+# Node 25+ no longer bundles corepack, so install it explicitly
+RUN npm install -g corepack@latest && corepack enable && corepack prepare pnpm@11.22.0 --activate
 WORKDIR /app
 
 FROM base AS deps
@@ -15,6 +16,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm build
 
 FROM mcr.microsoft.com/playwright:v1.62.1-noble AS runner
+# Replace the image's bundled Node with patched Node 26 (Oct 21 2026 security release, CVE-2026-111497)
+COPY --from=node:26.12.1-bookworm-slim /usr/local/bin/node /usr/bin/node
 WORKDIR /app
 
 ENV NODE_ENV=production
